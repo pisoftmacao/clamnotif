@@ -1,0 +1,7 @@
+#! /bin/bash
+#
+# NOTICE:
+# Script 'install' runs this little script to read the version number from _version.txt
+# Thus the version number can be maintained Once and Once ONLY.
+#
+cat "src/clamnotif/_version.txt"

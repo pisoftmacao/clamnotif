@@ -1,0 +1,8 @@
+#! /bin/bash
+
+# NOTICE:
+# We can package ClamNotif inside a clean Python environment by using this script.
+source ~/.venvs/python3/bin/activate
+rm -f dist/*
+python -m build
+deactivate

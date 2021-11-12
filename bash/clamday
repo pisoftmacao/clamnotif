@@ -1,0 +1,19 @@
+#! /bin/bash
+
+# NOTICE:
+# Configure YOUR folder to scan and the ClamAV report folder here
+
+function now() {
+    date +'%Y-%m-%d %H:%M'
+}
+
+CLAMAV_SCAN_FOLDER="${HOME}/Share/Data"
+CLAMAV_REPORT_FOLDER="/opt/clamav/report"
+
+# the health report will be saved as CLAMAV_REPORT_FILE
+CLAMAV_REPORT_FILE="${CLAMAV_REPORT_FOLDER}/clamav-$(date +'%Y-%m-%d').log"
+
+# execute the scanning job
+echo "[clamday] [$(now)] clamscan -ir ${CLAMAV_SCAN_FOLDER} > ${CLAMAV_REPORT_FILE}" 2>&1
+clamscan -ir "${CLAMAV_SCAN_FOLDER}" > "${CLAMAV_REPORT_FILE}"
+echo "[clamday] [$(now)] done!"

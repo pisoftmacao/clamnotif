@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# NOTICE:
+#
+# We can package and install ClamNotif inside a clean Python environment by using
+# this script. Once the installation succeeds, we try to invoke ClamNotif to see
+# if it runs properly.
+#
+
+function local_installation() {
+  ./package
+  source ~/.venvs/python3/bin/activate
+  VERSION=$(./version)
+  pip install --upgrade --force-reinstall --no-cache-dir dist/clamnotif-$VERSION-py3-none-any.whl
+  python -m clamnotif
+  deactivate
+}
+
+function testpypi_installation() {
+  source ~/.venvs/python3/bin/activate
+  VERSION=$(./version)
+  pip install --upgrade --force-reinstall --no-cache-dir -i https://test.pypi.org/simple/ clamnotif==$VERSION
+  python -m clamnotif
+  deactivate
+}
+
+function pypi_installation() {
+  source ~/.venvs/python3/bin/activate
+  VERSION=$(./version)
+  pip install --upgrade --force-reinstall --no-cache-dir clamnotif
+  python -m clamnotif
+  deactivate
+}
+
+if [ "--testpypi" == "$1" ]; then
+  testpypi_installation
+elif [ "--pypi" == "$1" ]; then
+  pypi_installation
+else
+  local_installation
+fi

@@ -1,0 +1,2 @@
+#! /bin/bash
+/opt/clamav/bin/clamday >> /opt/clamav/clamnotif/clamday.log

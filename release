@@ -1,0 +1,15 @@
+#!/bin/bash
+#
+# NOTICE:
+#
+# Upload to testpypi by default. If the flag --pypi is on, will release to the live pypi
+#
+
+./package
+source ~/.venvs/python3/bin/activate
+if [ "--pypi" == "$1" ]; then
+  python -m twine upload dist/*
+else
+  python -m twine upload --repository testpypi dist/*
+fi
+deactivate

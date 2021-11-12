@@ -1,0 +1,4 @@
+#! /bin/bash
+source ${HOME}/.venvs/python3/bin/activate
+python -m clamnotif --check-report >> ${HOME}/clamav/clamnotif/clamnotif.log 2>&1
+deactivate

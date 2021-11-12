@@ -1,0 +1,8 @@
+#! /bin/bash
+
+# NOTICE:
+# Install twine for distributing packages to pypi
+
+source ~/.venvs/python3/bin/activate
+python -m pip install --upgrade twine
+deactivate

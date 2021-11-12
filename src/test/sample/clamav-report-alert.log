@@ -1,0 +1,22 @@
+
+----------- SCAN SUMMARY -----------
+Known viruses: 8573202
+Engine version: 0.104.0
+Scanned directories: 2
+Scanned files: 146
+Infected files: 9
+Data scanned: 4.98 MB
+Data read: 4.94 MB (ratio 1.01:1)
+Time: 23.595 sec (0 m 23 s)
+Start Date: 2021:11:03 14:30:38
+End Date:   2021:11:03 14:31:02
+
+/usr/share/clamav-testfiles/clam.bz2.zip: ClamAV-Test-File FOUND
+/usr/share/clamav-testfiles/clam.d64.zip: ClamAV-Test-File FOUND
+/usr/share/clamav-testfiles/clam.ppt: ClamAV-Test-File FOUND
+/usr/share/clamav-testfiles/clam.tnef: ClamAV-Test-File FOUND
+/usr/share/clamav-testfiles/clam-aspack.exe: ClamAV-Test-File FOUND
+/usr/share/clamav-testfiles/clam.exe.rtf: ClamAV-Test-File FOUND
+/usr/share/clamav-testfiles/clam.7z: ClamAV-Test-File FOUND
+/usr/share/clamav-testfiles/clam_IScab_ext.exe: ClamAV-Test-File FOUND
+/usr/share/clamav-testfiles/clam.odc.cpio: ClamAV-Test-File FOUND

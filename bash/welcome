@@ -1,0 +1,6 @@
+#! /bin/bash
+
+function now() {
+    date +'%Y-%m-%d %H:%M'
+}
+echo "[welcome-$(whoami)][$(now)] done!" >> /opt/clamav/clamnotif/clamday.log

@@ -1,0 +1,33 @@
+#! /bin/bash
+
+# Usage:
+#     This is a helper script to run either all unittests or specified unittest(s).
+#
+#     If you issue:
+#
+#     $ ./run
+#
+#     it runs specified unittest(s) and you can run all unittests by issueing:
+#
+#     $ ./run -a
+#
+#     this is a very handy tool to speed up the coding-testing cycle.
+#
+#     By the way, all tests are run in a very clean Python virtual environment.
+#
+
+source ~/.venvs/python3/bin/activate
+if [ "-a" == "$1" ]; then
+	cd src && python -m unittest
+elif [ "--test-smtp" == "$1" ]; then
+	python -m clamnotif --test-smtp
+elif [ "--check-report" == "$1" ]; then
+	python -m clamnotif --check-report
+elif [ "--exception" == "$1" ]; then
+	python -m clamnotif --test-smtp --unknown
+	python -m clamnotif -x
+	python -m clamnotif
+else
+	cd src && python -m unittest -q test.test_messenger.MessengerTestCase.testSendAlert
+fi
+deactivate
