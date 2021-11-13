@@ -4,7 +4,7 @@ import sys
 
 from .checkcfg import checkcfg
 from .checkreport import checkreport
-from .clamreport import clamreport
+from .report_repository import report_repository
 from .config import config
 from .default import default_values
 from .echo import echo

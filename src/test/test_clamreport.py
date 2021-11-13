@@ -4,7 +4,7 @@ import os
 import unittest
 
 
-from clamnotif import clamreport
+from clamnotif import report_repository
 from datetime import datetime
 from .testutils import *
 
@@ -18,7 +18,7 @@ class ClamAVReportTestCase(unittest.TestCase):
 
     def testLookupLatestReportClamAVReportsOnly(self):
         folder = clamav_report_folder("clamav_only")
-        report = clamreport.find_last_report(folder)
+        report = report_repository.find_last_report(folder)
         self.assertIsNotNone(report)
         self.assertEqual(0, report.infected_number)
         start_time = datetime.strptime(
@@ -29,12 +29,12 @@ class ClamAVReportTestCase(unittest.TestCase):
 
     def testLookupLatestReportEmptyFolder(self):
         folder = clamav_report_folder("empty")
-        report = clamreport.find_last_report(folder)
+        report = report_repository.find_last_report(folder)
         self.assertIsNone(report)
 
     def testLookupLatestReportMixedWithNonClamAVFiles(self):
         folder = clamav_report_folder("mixed")
-        report = clamreport.find_last_report(folder)
+        report = report_repository.find_last_report(folder)
         self.assertIsNotNone(report)
         self.assertEqual(0, report.infected_number)
         start_time = datetime.strptime(
@@ -45,5 +45,5 @@ class ClamAVReportTestCase(unittest.TestCase):
 
     def testLookupLatestReportNonClamAVFilesOnly(self):
         folder = clamav_report_folder("non_clamav_only")
-        report = clamreport.find_last_report(folder)
+        report = report_repository.find_last_report(folder)
         self.assertIsNone(report)

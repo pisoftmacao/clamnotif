@@ -20,4 +20,4 @@ class HealthReportRepository(object):
         return reports[0]
 
 
-clamreport = HealthReportRepository()
+report_repository = HealthReportRepository()

@@ -1,16 +1,16 @@
 import logging
 import os
 
-from .clamreport import clamreport
+from .report_repository import report_repository
 from .lastlog import lastlog
 from .messenger import messenger
 from .timeutils import timeutils
 
 
 class CheckReport(object):
-    def __init__(self, _messenger, _clamreport, _lastlog, _timeutils):
+    def __init__(self, _messenger, _report_repository, _lastlog, _timeutils):
         self.messenger = _messenger
-        self.clamreport = _clamreport
+        self.report_repository = _report_repository
         self.lastlog = _lastlog
         self.timeutils = _timeutils
 
@@ -34,7 +34,7 @@ class CheckReport(object):
     def process(self, cfg):
         report_folder = os.path.expanduser(cfg.clamav_report_folder)
         logging.info("looking up reports from {} ...".format(report_folder))
-        report = self.clamreport.find_last_report(report_folder)
+        report = self.report_repository.find_last_report(report_folder)
         if report == None:
             mail_content = "Please be noticed that there are no report found in {}".format(
                 cfg.clamav_report_folder)
@@ -54,4 +54,4 @@ class CheckReport(object):
             logging.info("done.")
 
 
-checkreport = CheckReport(messenger, clamreport, lastlog, timeutils)
+checkreport = CheckReport(messenger, report_repository, lastlog, timeutils)

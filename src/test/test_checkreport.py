@@ -4,7 +4,7 @@ import os
 
 from datetime import datetime
 
-from clamnotif import clamreport, config, messenger, checkreport, lastlog, timeutils
+from clamnotif import report_repository, config, messenger, checkreport, lastlog, timeutils
 from clamnotif.reportreader import HealthReport
 from .testutils import *
 
@@ -89,7 +89,7 @@ class CheckReportTestCase(unittest.TestCase):
 
     def testCheckReportInitialisation(self):
         self.assertEqual(checkreport.messenger, messenger)
-        self.assertEqual(checkreport.clamreport, clamreport)
+        self.assertEqual(checkreport.report_repository, report_repository)
         self.assertEqual(checkreport.lastlog, lastlog)
         self.assertEqual(checkreport.timeutils, timeutils)
 
@@ -99,16 +99,16 @@ class CheckReportTestCase(unittest.TestCase):
         self.assertEqual(2, c.heartbeat_day_gap)
         # case 01:(now - heartbeat_time).days >= cfg.heartbeat_day_gap
         checkreport.messenger = MockMessenger()
-        checkreport.clamreport = HeartbeatClamReport(
+        checkreport.report_repository = HeartbeatClamReport(
             timeutils.str2time('2021-11-03 13:30:38'))
         checkreport.timeutils = MockTimeUtils(
             timeutils.str2time('2021-11-04 03:15:00'))
         checkreport.lastlog = MockLastLog(
             heartbeat_time=timeutils.str2time('2021-11-02 03:15:00'))
         checkreport.process(c)
-        self.assertEqual("f", checkreport.clamreport.trace)
+        self.assertEqual("f", checkreport.report_repository.trace)
         self.assertEqual(os.path.expanduser(
-            c.clamav_report_folder), checkreport.clamreport.report_folder)
+            c.clamav_report_folder), checkreport.report_repository.report_folder)
         self.assertEqual("h", checkreport.messenger.trace)
         self.assertEqual(c, checkreport.messenger.config)
         self.assertEqual("Heartbeat", checkreport.messenger.mail_content)
@@ -132,7 +132,7 @@ class CheckReportTestCase(unittest.TestCase):
         self.assertEqual(checkreport.timeutils.now(),
                          checkreport.lastlog.persist_heartbeat_time)
         checkreport.messenger = messenger
-        checkreport.clamreport = clamreport
+        checkreport.report_repository = report_repository
         checkreport.timeutils = timeutils
         checkreport.lastlog = lastlog
 
@@ -140,34 +140,34 @@ class CheckReportTestCase(unittest.TestCase):
         c = config.load_config(
             full_path("sample/clamnotif-sample.cfg"))
         checkreport.messenger = MockMessenger()
-        checkreport.clamreport = AlertClamReport()
+        checkreport.report_repository = AlertClamReport()
         # make sure no call to lastlog and timeutils if we are sending an alert
         checkreport.lastlog = None
         checkreport.timeutils = None
         checkreport.process(c)
-        self.assertEqual("f", checkreport.clamreport.trace)
+        self.assertEqual("f", checkreport.report_repository.trace)
         self.assertEqual(os.path.expanduser(
-            c.clamav_report_folder), checkreport.clamreport.report_folder)
+            c.clamav_report_folder), checkreport.report_repository.report_folder)
         self.assertEqual("a", checkreport.messenger.trace)
         self.assertEqual(c, checkreport.messenger.config)
         self.assertEqual("Alert!!!", checkreport.messenger.mail_content)
         checkreport.messenger = messenger
-        checkreport.clamreport = clamreport
+        checkreport.report_repository = report_repository
 
     def testSendNoReportFound(self):
         c = config.load_config(
             full_path("sample/clamnotif-sample.cfg"))
         checkreport.messenger = MockMessenger()
-        checkreport.clamreport = NoneClamReport()
+        checkreport.report_repository = NoneClamReport()
         checkreport.timeutils = MockTimeUtils(
             timeutils.str2time('2021-11-04 03:15:00'))
         checkreport.lastlog = MockLastLog(
             heartbeat_time=timeutils.str2time('2021-11-02 03:15:00'))
 
         checkreport.process(c)
-        self.assertEqual("f", checkreport.clamreport.trace)
+        self.assertEqual("f", checkreport.report_repository.trace)
         self.assertEqual(os.path.expanduser(
-            c.clamav_report_folder), checkreport.clamreport.report_folder)
+            c.clamav_report_folder), checkreport.report_repository.report_folder)
         self.assertEqual("h", checkreport.messenger.trace)
         self.assertEqual(c, checkreport.messenger.config)
         self.assertEqual("Please be noticed that there are no report found in ~/.ClamAV/daily/",
@@ -178,6 +178,6 @@ class CheckReportTestCase(unittest.TestCase):
                          checkreport.lastlog.persist_heartbeat_time)
         self.assertIsNone(checkreport.lastlog.persist_report_start_time)
         checkreport.messenger = messenger
-        checkreport.clamreport = clamreport
+        checkreport.report_repository = report_repository
         checkreport.timeutils = timeutils
         checkreport.lastlog = lastlog
