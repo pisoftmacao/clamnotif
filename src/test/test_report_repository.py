@@ -14,7 +14,7 @@ def clamav_report_folder(case_name):
         "sample/clamav_report/" + case_name)
 
 
-class ClamAVReportTestCase(unittest.TestCase):
+class HealthReportRepositoryTestCase(unittest.TestCase):
 
     def testLookupLatestReportClamAVReportsOnly(self):
         folder = clamav_report_folder("clamav_only")
