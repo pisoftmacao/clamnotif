@@ -32,10 +32,29 @@ function pypi_installation() {
   deactivate
 }
 
-if [ "--testpypi" == "$1" ]; then
-  testpypi_installation
-elif [ "--pypi" == "$1" ]; then
-  pypi_installation
-else
-  local_installation
-fi
+function install_gmail_api_deps() {
+  source ~/.venvs/python3/bin/activate
+  pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
+  deactivate
+}
+case "$1" in
+
+  --testpypi)
+    echo "installing clamnotif from testpypi..."
+    testpypi_installation
+    ;;
+
+  --pypi)
+    echo "installing clamnotif from pypi..."
+    pypi_installation
+    ;;
+
+  --gmail)
+    echo "installing gmail dependencies..."
+    install_gmail_api_deps
+    ;;
+  *)
+    echo "local installation..."
+    local_installation
+    ;;
+esac
